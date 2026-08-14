@@ -22,7 +22,7 @@ on:
         required: true
 
     outputs:
-      artifacts:
+      digests:
         description: "The digests of the built OCI container images"
         value: ${{ jobs.build.outputs.digests }}
 
