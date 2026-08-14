@@ -24,7 +24,7 @@ on:
     outputs:
       artifacts:
         description: "The digests of the built OCI container images"
-        value: ${{ steps.digests.outputs.artifacts }}
+        value: ${{ jobs.build.outputs.digests }}
 
 permissions: {}
 
@@ -36,6 +36,9 @@ jobs:
 
     permissions:
       contents: read
+
+    outputs:
+      digests: ${{ steps.digests.outputs.digests }}
 
     steps:
       - name: Checkout
@@ -101,5 +104,5 @@ jobs:
         shell: bash
         run: |
           INDEX_DIGEST="sha256:$(sha256sum index.json | cut -d ' ' -f1)"
-          ARTIFACTS=$(jq -c --arg index_digest "$INDEX_DIGEST" '[{arch: "index", digest: $index_digest}] + [.manifests[] | {arch: .platform.architecture, digest: .digest}]' index.json)
-          echo "artifacts=$ARTIFACTS" >> "$GITHUB_OUTPUT"
+          DIGESTS=$(jq -c --arg index_digest "$INDEX_DIGEST" '[{arch: "index", digest: $index_digest}] + [.manifests[] | {arch: .platform.architecture, digest: .digest}]' index.json)
+          echo "digests=$DIGESTS" >> "$GITHUB_OUTPUT"
