@@ -1,0 +1,105 @@
+# $schema: https://json.schemastore.org/github-workflow.json
+name: Build apko container image
+
+on:
+  workflow_call:
+    inputs:
+      apko-config-file:
+        description: "The apko config file to build"
+        type: string
+        default: "apko.yaml"
+      apko-lock-file:
+        description: "The apko lock file to use"
+        type: string
+        default: "apko.lock.json"
+      image-name:
+        description: "The name of the built image"
+        type: string
+        required: true
+      image-tag:
+        description: "The tag of the built image"
+        type: string
+        required: true
+
+    outputs:
+      artifacts:
+        description: "The digests of the built OCI container images"
+        value: ${{ steps.digests.outputs.artifacts }}
+
+permissions: {}
+
+jobs:
+  build:
+    name: Build apko container image
+
+    runs-on: ubuntu-24.04
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+
+      - name: Create build output dirs
+        shell: bash
+        run: |
+          mkdir ./dist
+          mkdir ./dist/oci-images
+          mkdir ./dist/sboms
+
+      - name: Run `apko build`
+        uses: docker://cgr.dev/chainguard/apko@sha256:994ffaf86e3141b55cfd9cdbd14e7f8f94f9eb2f45266e6adc0a6a409b270aa1 # latest
+        with:
+          args: >-
+            build
+            --vcs=false
+            --annotations=org.opencontainers.image.source:${{ env.REPO }}
+            --annotations=org.opencontainers.image.revision:${{ env.REVISION }}
+            --sbom-path=dist/sboms
+            --lockfile=${{ inputs.apko-lock-file }}
+            ${{ inputs.apko-config-file }}
+            ${{ inputs.image-name }}:${{ inputs.image-tag }}
+            ./dist/oci-images
+
+      - name: Fix ownership of apko output
+        run: sudo chown -R "$(id -u):$(id -g)" ./dist/
+
+      - name: Fix arch names of apko SBOMs
+        shell: bash
+        run: |
+          declare -A arch_map=( [x86_64]=amd64 [aarch64]=arm64 [armv7]=arm )
+
+          for apk_arch in "${!arch_map[@]}"; do
+            oci_arch="${arch_map[$apk_arch]}"
+            src="dist/sboms/sbom-${apk_arch}.spdx.json"
+            dst="dist/sboms/sbom-${oci_arch}.spdx.json"
+            if [ -f "$src" ]; then
+              mv "$src" "$dst"
+            fi
+          done
+
+      - name: Upload OCI Images
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.2
+        with:
+          name: build-oci-images
+          path: dist/oci-images
+          retention-days: 1
+
+      - name: Upload SBOMs
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.2
+        with:
+          name: build-sboms
+          path: dist/sboms
+          retention-days: 1
+
+      - name: Capture image digests
+        id: digests
+        working-directory: dist/oci-images
+        shell: bash
+        run: |
+          INDEX_DIGEST="sha256:$(sha256sum index.json | cut -d ' ' -f1)"
+          ARTIFACTS=$(jq -c --arg index_digest "$INDEX_DIGEST" '[{arch: "index", digest: $index_digest}] + [.manifests[] | {arch: .platform.architecture, digest: .digest}]' index.json)
+          echo "artifacts=$ARTIFACTS" >> "$GITHUB_OUTPUT"
