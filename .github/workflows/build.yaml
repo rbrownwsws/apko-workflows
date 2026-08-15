@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-24.04
 
     permissions:
-      contents: read
+      contents: read  # to check out the source to build
 
     outputs:
       digests: ${{ steps.digests.outputs.digests }}
