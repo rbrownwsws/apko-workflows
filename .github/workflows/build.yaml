@@ -37,6 +37,10 @@ jobs:
     permissions:
       contents: read  # to check out the source to build
 
+    env:
+      REPO: https://github.com/${{ github.event.pull_request.head.repo.full_name || github.repository }}
+      REVISION: ${{ github.event.pull_request.head.sha || github.sha }}
+
     outputs:
       digests: ${{ steps.digests.outputs.digests }}
 
