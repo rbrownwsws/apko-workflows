@@ -1,0 +1,77 @@
+# $schema: https://json.schemastore.org/github-workflow.json
+
+name: Update lock files
+
+on:
+  workflow_call:
+    inputs:
+      apko-config-file:
+        description: "The apko config file to build"
+        type: string
+        required: false
+        default: "apko.yaml"
+      apko-lock-file:
+        description: "The apko lock file to use"
+        type: string
+        required: false
+        default: "apko.lock.json"
+      updater-app-client-id:
+        description: "The client ID of the app used to commit the updated lock file"
+        required: true
+        type: string
+    secrets:
+      updater-app-private-key:
+        description: "The private key of the app used to commit the updated lock file"
+        required: true
+
+permissions: {}
+
+jobs:
+  update:
+    name: Update lock file
+
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Create GitHub App Token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        id: app-token
+        with:
+          client-id: ${{ inputs.updater-app-client-id }}
+          private-key: ${{ secrets.updater-app-private-key }}
+          permission-contents: write
+
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          persist-credentials: false
+
+      - name: Run `apko lock`
+        uses: docker://cgr.dev/chainguard/apko@sha256:994ffaf86e3141b55cfd9cdbd14e7f8f94f9eb2f45266e6adc0a6a409b270aa1 # latest
+        with:
+          args: lock "${{ inputs.apko-config-file }}" --output "${{ inputs.apko-lock-file }}"
+
+      - name: Check if the lock file has changed
+        id: check
+        shell: bash
+        env:
+          APKO_LOCK_FILE: "${{ inputs.apko-lock-file }}"
+        run: |
+          set -euo pipefail
+
+          git add "${APKO_LOCK_FILE}"
+
+          changed='false'
+          if ! git diff --staged --quiet; then
+            changed='true'
+          fi
+
+          echo "changed=${changed}" >> "${GITHUB_OUTPUT}"
+
+      - name: Commit updated lockfile
+        if: steps.check.outputs.changed == 'true'
+        uses: rbrownwsws/commit-signed-by-github-app@e4311164f3a0aac3eb365e8062ad7acbda3f1b39 # master
+        with:
+          commit-message: "chore(deps): update lock file"
+          github-api-token: ${{ steps.app-token.outputs.token }}
