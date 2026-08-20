@@ -71,7 +71,7 @@ jobs:
 
       - name: Commit updated lockfile
         if: steps.check.outputs.changed == 'true'
-        uses: rbrownwsws/commit-signed-by-github-app@e4311164f3a0aac3eb365e8062ad7acbda3f1b39 # master
+        uses: rbrownwsws/commit-signed-by-github-app@4f867b53025c28f1390f3e9967fe29a4e75bbcb6 # master
         with:
           commit-message: "chore(deps): update lock file"
           github-api-token: ${{ steps.app-token.outputs.token }}
