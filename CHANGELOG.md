@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/rbrownwsws/apko-workflows/compare/v1.0.1...v1.0.2) (2026-09-01)
+
+
+### Bug Fixes
+
+* **deps:** update cgr.dev/chainguard/apko docker digest to 23798f0 ([#15](https://github.com/rbrownwsws/apko-workflows/issues/15)) ([897c5b8](https://github.com/rbrownwsws/apko-workflows/commit/897c5b828ad504e6f0787ddb3e72b644d5d8153c))
+
 ## [1.0.1](https://github.com/rbrownwsws/apko-workflows/compare/v1.0.0...v1.0.1) (2026-08-29)
 
 
