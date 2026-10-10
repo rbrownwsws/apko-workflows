@@ -48,7 +48,7 @@ jobs:
           persist-credentials: false
 
       - name: Run `apko lock`
-        uses: docker://cgr.dev/chainguard/apko@sha256:d2dd35e4acb9acf4affb59458779f3f8dd420b1503c4bbae63a1e2808c263ea3 # latest
+        uses: docker://cgr.dev/chainguard/apko@sha256:4496003017aa3b2c561f755400c5c936a683b3e3d5274bb2932cd69ea37253c7 # latest
         with:
           args: lock "${{ inputs.apko-config-file }}" --output "${{ inputs.apko-lock-file }}"
 
