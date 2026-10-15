@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.0.6](https://github.com/rbrownwsws/apko-workflows/compare/v1.0.5...v1.0.6) (2026-10-15)
+
+
+### Bug Fixes
+
+* **deps:** update actions/create-github-app-token action to v3.3.0 ([#33](https://github.com/rbrownwsws/apko-workflows/issues/33)) ([a1c1f69](https://github.com/rbrownwsws/apko-workflows/commit/a1c1f691a1736263d5782d9207eac96c0d644375))
+* **deps:** update actions/download-artifact action to v8.0.2 ([#29](https://github.com/rbrownwsws/apko-workflows/issues/29)) ([a416686](https://github.com/rbrownwsws/apko-workflows/commit/a416686b91ef5b37bf0b579130560f798d36a563))
+* **deps:** update actions/upload-artifact action to v7.0.2 ([#30](https://github.com/rbrownwsws/apko-workflows/issues/30)) ([0f6a672](https://github.com/rbrownwsws/apko-workflows/commit/0f6a672bc5a33fc7026ac54eff9126a954dadc53))
+* **deps:** update cgr.dev/chainguard/apko docker digest to 1c49b7e ([#32](https://github.com/rbrownwsws/apko-workflows/issues/32)) ([5533536](https://github.com/rbrownwsws/apko-workflows/commit/55335362fc0c2b467e3e299d658d6f09c38deb49))
+* **deps:** update cgr.dev/chainguard/apko docker digest to 4496003 ([#31](https://github.com/rbrownwsws/apko-workflows/issues/31)) ([7291480](https://github.com/rbrownwsws/apko-workflows/commit/7291480c0a996a2720219bda567ccdf1124f0c58))
+* **deps:** update cgr.dev/chainguard/apko docker digest to 7d8d815 ([#26](https://github.com/rbrownwsws/apko-workflows/issues/26)) ([a117ef6](https://github.com/rbrownwsws/apko-workflows/commit/a117ef6075f4ef02ace1d3a180b05e1263324011))
+* **deps:** update cgr.dev/chainguard/apko docker digest to d2dd35e ([#28](https://github.com/rbrownwsws/apko-workflows/issues/28)) ([72ef99d](https://github.com/rbrownwsws/apko-workflows/commit/72ef99d2707c31eebf3f1cfd9a42bf7759f98253))
+
 ## [1.0.5](https://github.com/rbrownwsws/apko-workflows/compare/v1.0.4...v1.0.5) (2026-09-27)
 
 
