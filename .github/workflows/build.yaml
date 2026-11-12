@@ -59,7 +59,7 @@ jobs:
           mkdir ./dist/sboms
 
       - name: Run `apko build`
-        uses: docker://cgr.dev/chainguard/apko@sha256:d4874962858ee6b2ce55d198011f5ca5ea89ac3e277479b779ecfc3a2298e6a2 # latest
+        uses: docker://cgr.dev/chainguard/apko@sha256:114f9074c9ff4c1f9655bb5df5e439586182a5093536a3d444c64641e74af8c9 # latest
         with:
           args: >-
             build
