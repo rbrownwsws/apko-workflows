@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.8](https://github.com/rbrownwsws/apko-workflows/compare/v1.0.7...v1.0.8) (2026-11-14)
+
+
+### Bug Fixes
+
+* **deps:** update cgr.dev/chainguard/apko docker digest to 114f907 ([#43](https://github.com/rbrownwsws/apko-workflows/issues/43)) ([99f1321](https://github.com/rbrownwsws/apko-workflows/commit/99f13219ea417109ad4058e81572651a4e9a4d4c))
+* **deps:** update cgr.dev/chainguard/apko docker digest to 1fb716c ([#44](https://github.com/rbrownwsws/apko-workflows/issues/44)) ([b31da47](https://github.com/rbrownwsws/apko-workflows/commit/b31da479d4e8c35cb8141d930320873b09d01f12))
+* **deps:** update cgr.dev/chainguard/apko docker digest to c53d15d ([#38](https://github.com/rbrownwsws/apko-workflows/issues/38)) ([6f50d30](https://github.com/rbrownwsws/apko-workflows/commit/6f50d306a5b4854b0c6f49f02a23a6de7779b1f6))
+* **deps:** update cgr.dev/chainguard/apko docker digest to d487496 ([#42](https://github.com/rbrownwsws/apko-workflows/issues/42)) ([d6c9e8d](https://github.com/rbrownwsws/apko-workflows/commit/d6c9e8d07f43b07065603c959209b6b916df2a6e))
+* **deps:** update cgr.dev/chainguard/apko docker digest to d6c63be ([#40](https://github.com/rbrownwsws/apko-workflows/issues/40)) ([eab86e3](https://github.com/rbrownwsws/apko-workflows/commit/eab86e30f6b0f90259c5f3d607dd1635088e269c))
+* **deps:** update docker/login-action action to v4.8.0 ([#41](https://github.com/rbrownwsws/apko-workflows/issues/41)) ([09caba9](https://github.com/rbrownwsws/apko-workflows/commit/09caba954b35d372f37f542e45f6c95da7e2935e))
+
 ## [1.0.7](https://github.com/rbrownwsws/apko-workflows/compare/v1.0.6...v1.0.7) (2026-10-27)
 
 
